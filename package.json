@@ -8,8 +8,7 @@
   "scripts": {
     "start": "npm install && npm run build",
     "build": "webpack",
-    "watch": "webpack --watch",
-    "test": "jest"
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -32,7 +31,6 @@
     "css-loader": "^1.0.0",
     "eslint": "^5.5.0",
     "eslint-loader": "^2.1.0",
-    "jest": "^23.5.0",
     "mini-css-extract-plugin": "^0.4.2",
     "postcss": "^7.0.2",
     "postcss-import": "^12.0.0",
