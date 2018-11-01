@@ -20,8 +20,8 @@ export default class TenUpTabs {
 		// Tab Containers
 		this.$tabs = document.querySelectorAll( element );
 
-		// Bail out if there's no menu.
-		if ( ! this.$menu  ) {
+		// Bail out if there are no tabs.
+		if ( ! this.$tabs  ) {
 			console.error( '10up Tabs: Target not found. A valid target (tab area) must be used.'  ); // eslint-disable-line
 			return;
 		}
