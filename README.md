@@ -4,10 +4,10 @@ The tabs component is based on and extended from work done by the folks over at 
 
 ## Installation
 
-**NPM**
+### NPM
 `npm install --save @10up/component-tabs`
 
-**Standalone**
+### Standalone
 Clone this repo and import `tabs.js` and `tabs.css` from the `dist/` directory.
 
 ## API
