@@ -40,12 +40,12 @@ export default class TenUpTabs {
 	}
 
 	/**
-		* Initialize a given tab area
-		* Configure tab properties and set AIRA attributes.
-		*
-		* @param   {element} $tabArea The tabArea to scope changes
-		* @returns {void}
-		*/
+	 * Initialize a given tab area
+	 * Configure tab properties and set AIRA attributes.
+	 *
+	 * @param   {element} $tabArea The tabArea to scope changes
+	 * @returns {void}
+	 */
 	setupTabs( tabArea ) {
 
 		let tabLinks = tabArea.querySelectorAll( '.tab-list li > a' );
