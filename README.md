@@ -25,7 +25,7 @@ This component accepts two arguments, the selector for the tab container and an 
 
 This is the markup template expected by the component.
 
-```
+```html
 <div class="tabs">
 	<div class="tab-control">
 		<ul class="tab-list">
@@ -51,7 +51,7 @@ This is the markup template expected by the component.
 The styles can be imported into your existing codebase by using PostCSS imports, or by including the standalone CSS file in your project.
 
 #### PostCSS Imports
-@import '@10up/component-accordion';
+`@import '@10up/component-accordion';`
 
 #### Standalone
 Include the `tabs.css` file from the `dist/` directory.
@@ -62,7 +62,7 @@ Create a new instance by supplying the selector to use for the tabs and an objec
 
 #### NPM
 
-```
+```javascript
 import tabs from '@10up/component-tabs';
 
 tabs( '.tabs', {
@@ -79,7 +79,7 @@ tabs( '.tabs', {
 
 Include the `tabs.js` file from the `dist/` directory and access the component from the gobal `TenUp` object.
 
-```
+```javascript
 let myTabs = new TenUp.tabs( '.tabs', {
 	onCreate: function() {
 		console.log( 'onCreate callback' );
