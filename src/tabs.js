@@ -108,16 +108,14 @@ export default class TenUpTabs {
 		let oldTab = tabArea.querySelector( '.tab-list li.is-active a' );
 
 		// Change state of previously selected tab
-		if ( oldTab ) {
-			let oldTabId = oldTab.getAttribute( 'href' );
-			let oldTabContent = tabArea.querySelector( oldTabId );
+		let oldTabId = oldTab.getAttribute( 'href' );
+		let oldTabContent = tabArea.querySelector( oldTabId );
 
-			oldTab.setAttribute( 'aria-selected', 'false' );
-			oldTab.parentNode.classList.remove( 'is-active' );
+		oldTab.setAttribute( 'aria-selected', 'false' );
+		oldTab.parentNode.classList.remove( 'is-active' );
 
-			oldTabContent.setAttribute( 'aria-hidden', 'true' );
-			oldTabContent.classList.remove( 'is-active' );
-		}
+		oldTabContent.setAttribute( 'aria-hidden', 'true' );
+		oldTabContent.classList.remove( 'is-active' );
 
 		// Change state of newly selected tab
 		let newTab = event.target;
