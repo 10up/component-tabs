@@ -92,11 +92,16 @@
 		</div><!-- //.tabs -->
 		<script src="/dist/tabs.js"></script>
 		<script type="text/javascript">
-			TenUp.tabs({
-				'target': '.tabs', // ID (or class) of the tab container
-			}, function() {
-				console.log('Amazing callback function!');
-			});
+
+			let componentInstance = new TenUp.tabs( '.tabs', {
+				onCreate: function() {
+					console.log( 'onCreate callback' );
+				},
+				onTabChange: function() {
+					console.log( 'onTabChange callback' );
+				}
+			} );
+
 		</script>
 	</body>
 </html>

@@ -1,94 +1,144 @@
 'use strict';
 
-export default function Tabs ( options, callback ) {
+export default class TenUpTabs {
 
-	if ( 'undefined' === typeof options.target  ) {
-		return;
+	constructor( element, options = {} ) {
+
+		// Defaults
+		const defaults = {
+
+			// Event callbacks
+			onCreate: null,
+			onTabChange: null,
+		};
+
+		if ( ! element || 'string' !== typeof element ) {
+			console.error( '10up Tabs: No target supplied. A valid target (tab area) must be used.' ); // eslint-disable-line
+			return;
+		}
+
+		// Tab Containers
+		this.$tabs = document.querySelectorAll( element );
+
+		// Bail out if there's no menu.
+		if ( ! this.$menu  ) {
+			console.error( '10up Tabs: Target not found. A valid target (tab area) must be used.'  ); // eslint-disable-line
+			return;
+		}
+
+		// Settings
+		this.settings = Object.assign( {}, defaults, options );
+
+		for ( let tabArea of this.$tabs ) {
+			this.setupTabs( tabArea );
+		}
+
+		// Do any callbacks, if assigned.
+		if ( this.settings.onCreate && 'function' === typeof this.settings.onCreate ) {
+			this.settings.onCreate.call();
+		}
 	}
 
-	let tabs = Array.from( document.querySelectorAll( options.target ) );
+	/**
+		* Initialize a given tab area
+		* Configure tab properties and set AIRA attributes.
+		*
+		* @param   {element} $tabArea The tabArea to scope changes
+		* @returns {void}
+		*/
+	setupTabs( tabArea ) {
 
-	tabs.forEach( tab => {
+		let tabLinks = tabArea.querySelectorAll( '.tab-list li > a' );
 
-		let tabContent = Array.from( tab.querySelectorAll( '.tab-content' ) ),
-			tabLinks     = Array.from( tab.querySelectorAll( '.tab-list li > a' ) ),
-			activeTab    = Array.from( tab.querySelectorAll( '.tab-list li' ) );
+		for ( let tabLink of tabLinks ) {
+			let tabId = tabLink.getAttribute( 'href' );
+			let tabLinkId = `tab-${ tabId.slice( 1 ) }`;
+			let tabContent = tabArea.querySelector( tabId );
 
-		// Set state for the first .tab-item
-		let firstTab = tab.querySelectorAll( '.tab-item' )[0];
-		firstTab.classList.add( 'is-active' );
+			tabLink.setAttribute( 'id', tabLinkId );
+			tabLink.setAttribute( 'aria-selected', false );
+			tabLink.parentNode.setAttribute( 'role', 'presentation' );
 
-		tabLinks.forEach( ( tab, index ) => {
+			tabContent.setAttribute( 'aria-labeledby', tabLinkId );
+			tabContent.setAttribute( 'aria-hidden', true );
 
-			let tabId = 'tab-' + tab.getAttribute( 'href' ).slice( 1 );
-
-			// Set ARIA and ID attributes
-			tab.setAttribute( 'id', tabId );
-			tab.setAttribute( 'aria-selected', false );
-			tab.parentNode.setAttribute( 'role', 'presentation' );
-			tabContent[index].setAttribute( 'aria-labelledby', tabId );
-			tabContent[index].setAttribute( 'aria-hidden', true );
-
-			tab.onclick = tabHandle;
-
-			function tabHandle( event ) {
-
+			tabLink.addEventListener( 'click', () => {
 				event.preventDefault();
 
-				// Handle opening and closing of the tabs on mobile devices
-				if ( tab.parentNode.classList.contains( 'is-active' ) ) {
-					tab.parentNode.parentNode.classList.toggle( 'm-is-active' );
-				} else {
-					tab.parentNode.parentNode.classList.remove( 'm-is-active' );
+				if ( ! event.target.parentNode.classList.contains( 'is-active' ) ) {
+					this.goToTab( event, tabArea );
 				}
+			} );
+		}
 
-				// Change state of previously selected activeTab item
-				activeTab.forEach( ( value, index ) => {
-
-					if ( value.classList.contains( 'is-active' ) ) {
-						value.classList.remove( 'is-active' );
-						tabLinks[index].setAttribute( 'aria-selected', 'false' );
-					}
-
-				} );
-
-				// Set state of newly selected tab list item
-				tab.setAttribute( 'aria-selected', 'true' );
-				tab.parentNode.classList.add( 'is-active' );
-
-				// Change state of previously selected tabContent item
-				tabContent.forEach( value => {
-
-					if ( value.classList.contains( 'is-active' ) ) {
-						value.classList.remove( 'is-active' );
-						value.setAttribute( 'aria-hidden', 'true' );
-					}
-
-				} );
-
-				// Show newly selected content
-				tabContent[index].classList.add( 'is-active' );
-				tabContent[index].setAttribute( 'aria-hidden', 'false' );
-
-				// Set focus to the first heading in the newly revealed tab content
-				if ( tabContent[index].querySelector( 'h2' ) ) {
-					tabContent[index].querySelector( 'h2' ).setAttribute( 'tabindex', -1 );
-					tabContent[index].querySelector( 'h2' ).focus();
-				}
-
-			}
-
-			// Set state for the first .tab-content item
-			tabContent[0].classList.add( 'is-active' );
-			tabContent[0].setAttribute( 'aria-hidden', 'false' );
-
-		} );
-
-	} );
-
-	// Execute the callback function
-	if ( 'function' === typeof callback ) {
-		callback.call();
+		this.setFirstTab( tabArea );
 	}
 
+	/**
+	 * Sets the first tab as active
+	 * Adds CSS classes and toggle AIRA attributes.
+	 *
+	 * @param   {element} $tabArea The tabArea to scope changes
+	 * @returns {void}
+	 */
+	setFirstTab( tabArea ) {
+		// Change state of first tab
+		let firstTab = tabArea.querySelector( '.tab-list li:first-child a' );
+		let firstTabId = firstTab.getAttribute( 'href' );
+		let firstTabContent = tabArea.querySelector( firstTabId );
+
+		firstTab.setAttribute( 'aria-selected', 'true' );
+		firstTab.parentNode.classList.add( 'is-active' );
+
+		// Show first tab content
+		firstTabContent.setAttribute( 'aria-hidden', 'false' );
+		firstTabContent.classList.add( 'is-active' );
+	}
+
+	/**
+	 * Changes the active tab when clicked
+	 * Adds CSS classes and toggle AIRA attributes.
+
+	 * @param   {object}  $event   The tab click event
+	 * @param   {element} $tabArea The tabArea to scope changes
+	 * @returns {void}
+	 */
+	goToTab( event, tabArea ) {
+
+		let oldTab = tabArea.querySelector( '.tab-list li.is-active a' );
+
+		// Change state of previously selected tab
+		if ( oldTab ) {
+			let oldTabId = oldTab.getAttribute( 'href' );
+			let oldTabContent = tabArea.querySelector( oldTabId );
+
+			oldTab.setAttribute( 'aria-selected', 'false' );
+			oldTab.parentNode.classList.remove( 'is-active' );
+
+			oldTabContent.setAttribute( 'aria-hidden', 'true' );
+			oldTabContent.classList.remove( 'is-active' );
+		}
+
+		// Change state of newly selected tab
+		let newTab = event.target;
+		let newTabId = newTab.getAttribute( 'href' );
+		let newTabContent = tabArea.querySelector( newTabId );
+
+		newTab.setAttribute( 'aria-selected', 'true' );
+		newTab.parentNode.classList.add( 'is-active' );
+
+		// Show newly selected content
+		newTabContent.setAttribute( 'aria-hidden', 'false' );
+		newTabContent.classList.add( 'is-active' );
+
+		if ( newTabContent.querySelector( 'h2' ) ) {
+			newTabContent.querySelector( 'h2' ).setAttribute( 'tabindex', -1 );
+			newTabContent.querySelector( 'h2' ).focus();
+		}
+
+		// Custom tab change event
+		if ( this.settings.onTabChange && 'function' === typeof this.settings.onTabChange ) {
+			this.settings.onTabChange.call();
+		}
+	}
 }
