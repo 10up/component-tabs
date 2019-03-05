@@ -92,4 +92,4 @@ let myTabs = new TenUp.tabs( '.tabs', {
 
 ## Demo
 
-An example implementation can be found in the `index.html` file in the root of this package.
+Example implementations can be found in the `demo` directory.
