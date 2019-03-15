@@ -1,5 +1,17 @@
 'use strict';
 
+/**
+ * @module @10up/Tabs
+ *
+ * @description
+ *
+ * An accessible tabs UI component.
+ *
+ * [Demo]{@link https://10up.github.io/wp-component-library/component/tabs/index.html}
+ *
+ * @param {string} element Element selector for the tooltip container.
+ * @param {Object} options Object of optional callbacks.
+ */
 export default class TenUpTabs {
 
 	constructor( element, options = {} ) {
@@ -33,7 +45,10 @@ export default class TenUpTabs {
 			this.setupTabs( tabArea );
 		}
 
-		// Do any callbacks, if assigned.
+		/**
+		 * Called after the tabs are initialized on page load.
+		 * @callback onCreate
+		 */
 		if ( this.settings.onCreate && 'function' === typeof this.settings.onCreate ) {
 			this.settings.onCreate.call();
 		}
@@ -75,14 +90,14 @@ export default class TenUpTabs {
 	}
 
 	/**
-	 * Sets the first tab as active
+	 * Sets the first tab as active.
 	 * Adds CSS classes and toggle AIRA attributes.
 	 *
-	 * @param   {element} $tabArea The tabArea to scope changes
+	 * @param   {element} $tabArea The tabArea to scope changes.
 	 * @returns {void}
 	 */
 	setFirstTab( tabArea ) {
-		// Change state of first tab
+		// Change state of first tab.
 		let firstTab = tabArea.querySelector( '.tab-list li:first-child a' );
 		let firstTabId = firstTab.getAttribute( 'href' );
 		let firstTabContent = tabArea.querySelector( firstTabId );
@@ -90,24 +105,24 @@ export default class TenUpTabs {
 		firstTab.setAttribute( 'aria-selected', 'true' );
 		firstTab.parentNode.classList.add( 'is-active' );
 
-		// Show first tab content
+		// Show first tab content.
 		firstTabContent.setAttribute( 'aria-hidden', 'false' );
 		firstTabContent.classList.add( 'is-active' );
 	}
 
 	/**
-	 * Changes the active tab when clicked
+	 * Changes the active tab when clicked.
 	 * Adds CSS classes and toggle AIRA attributes.
 
-	 * @param   {object}  $event   The tab click event
-	 * @param   {element} $tabArea The tabArea to scope changes
+	 * @param   {Object}  $event   The tab click event object.
+	 * @param   {element} $tabArea The tabArea to scope changes.
 	 * @returns {void}
 	 */
 	goToTab( event, tabArea ) {
 
 		let oldTab = tabArea.querySelector( '.tab-list li.is-active a' );
 
-		// Change state of previously selected tab
+		// Change state of previously selected tab.
 		let oldTabId = oldTab.getAttribute( 'href' );
 		let oldTabContent = tabArea.querySelector( oldTabId );
 
@@ -117,7 +132,7 @@ export default class TenUpTabs {
 		oldTabContent.setAttribute( 'aria-hidden', 'true' );
 		oldTabContent.classList.remove( 'is-active' );
 
-		// Change state of newly selected tab
+		// Change state of newly selected tab.
 		let newTab = event.target;
 		let newTabId = newTab.getAttribute( 'href' );
 		let newTabContent = tabArea.querySelector( newTabId );
@@ -125,7 +140,7 @@ export default class TenUpTabs {
 		newTab.setAttribute( 'aria-selected', 'true' );
 		newTab.parentNode.classList.add( 'is-active' );
 
-		// Show newly selected content
+		// Show newly selected content.
 		newTabContent.setAttribute( 'aria-hidden', 'false' );
 		newTabContent.classList.add( 'is-active' );
 
@@ -134,7 +149,10 @@ export default class TenUpTabs {
 			newTabContent.querySelector( 'h2' ).focus();
 		}
 
-		// Custom tab change event
+		/**
+		 * Called after a tab has been changed.
+		 * @callback onTabChange
+		*/
 		if ( this.settings.onTabChange && 'function' === typeof this.settings.onTabChange ) {
 			this.settings.onTabChange.call();
 		}
