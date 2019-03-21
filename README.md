@@ -28,17 +28,17 @@ This is the markup template expected by the component.
 ```html
 <div class="tabs">
 	<div class="tab-control">
-		<ul class="tab-list">
-			<li class="tab-item"><a href="#js-tab1">View Tab 1</a></li>
-			<li class="tab-item"><a href="#js-tab2">View Tab 2</a></li>
+		<ul class="tab-list" role="tablist">
+			<li class="tab-item"><button role="tab" aria-controls="js-tab1">View Tab 1</button></li>
+			<li class="tab-item"><button role="tab" aria-controls="js-tab2">View Tab 2</button></li>
 		</ul>
 	</div>
 	<div class="tab-group">
-		<div class="tab-content" id="js-tab1">
+		<div class="tab-content" id="js-tab1" role="tabpanel">
 			<h2>Tab 1 Content</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 		</div>
-		<div class="tab-content" id="js-tab2">
+		<div class="tab-content" id="js-tab2" role="tabpanel">
 			<h2>Tab 2 Content</h2>
 			<p>In tincidunt tempor risus gravida tincidunt.</p>
 		</div>
