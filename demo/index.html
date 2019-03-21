@@ -5,6 +5,17 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="../dist/tabs.css" rel="stylesheet">
+		<style type="text/css">
+			.tabs-vertical .tab-list {
+				display: -webkit-flex;
+				display: -moz-flex;
+				display: -ms-flex;
+				display: -o-flex;
+				display: flex;
+				flex-direction: column;
+				white-space: normal;
+			}
+		</style>
 	</head>
 	<body>
 
@@ -49,7 +60,7 @@
 			</div><!-- //.tab-group -->
 
 		</div><!-- //.tabs -->
-		<div class="tabs">
+		<div class="tabs-vertical">
 			<div class="tab-control">
 				<ul class="tab-list">
 					<li class="tab-item"><a href="#js-tab1">View Tab 1</a></li>
@@ -90,10 +101,21 @@
 			</div><!-- //.tab-group -->
 
 		</div><!-- //.tabs -->
+
 		<script src="../dist/tabs.js"></script>
 		<script type="text/javascript">
 
 			let componentInstance = new TenUp.tabs( '.tabs', {
+				onCreate: function() {
+					console.log( 'onCreate callback' );
+				},
+				onTabChange: function() {
+					console.log( 'onTabChange callback' );
+				}
+			} );
+
+			let componentInstanceVertical = new TenUp.tabs( '.tabs-vertical', {
+				orientation: 'vertical',
 				onCreate: function() {
 					console.log( 'onCreate callback' );
 				},
