@@ -51,7 +51,7 @@ This is the markup template expected by the component.
 The styles can be imported into your existing codebase by using PostCSS imports, or by including the standalone CSS file in your project.
 
 #### PostCSS Imports
-`@import '@10up/component-accordion';`
+`@import '@10up/component-tabs';`
 
 #### Standalone
 Include the `tabs.css` file from the `dist/` directory.
