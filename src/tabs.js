@@ -14,6 +14,11 @@
  */
 export default class TenUpTabs {
 
+	/**
+	 * Constructor function
+	 * @param Object element
+	 * @param Object options
+	 */
 	constructor( element, options = {} ) {
 
 		// Defaults
@@ -41,7 +46,7 @@ export default class TenUpTabs {
 		// Settings
 		this.settings = Object.assign( {}, defaults, options );
 
-		for ( let tabArea of this.$tabs ) {
+		for ( const tabArea of this.$tabs ) {
 			this.setupTabs( tabArea );
 		}
 
@@ -63,12 +68,12 @@ export default class TenUpTabs {
 	 */
 	setupTabs( tabArea ) {
 
-		let tabLinks = tabArea.querySelectorAll( '.tab-list [role="tab"]' );
+		const tabLinks = tabArea.querySelectorAll( '.tab-list [role="tab"]' );
 
-		for ( let tabLink of tabLinks ) {
-			let tabId = tabLink.getAttribute( 'aria-controls' );
-			let tabLinkId = `tab-${ tabId }`;
-			let tabContent = document.getElementById( tabId );
+		for ( const tabLink of tabLinks ) {
+			const tabId = tabLink.getAttribute( 'aria-controls' );
+			const tabLinkId = `tab-${ tabId }`;
+			const tabContent = document.getElementById( tabId );
 
 			tabLink.setAttribute( 'id', tabLinkId );
 			tabLink.setAttribute( 'aria-selected', false );
@@ -77,6 +82,7 @@ export default class TenUpTabs {
 			tabContent.setAttribute( 'aria-labeledby', tabLinkId );
 			tabContent.setAttribute( 'aria-hidden', true );
 
+			// Activate the tab on [click]
 			tabLink.addEventListener( 'click', ( event ) => {
 				event.preventDefault();
 
@@ -85,6 +91,7 @@ export default class TenUpTabs {
 				}
 			} );
 
+			// Activate the tab on [space]
 			tabLink.addEventListener( 'keyup', ( event ) => {
 
 				if ( 32 === event.which && ! event.target.parentNode.classList.contains( 'is-active' ) ) {
@@ -106,9 +113,9 @@ export default class TenUpTabs {
 	 */
 	setFirstTab( tabArea ) {
 		// Change state of first tab.
-		let firstTab = tabArea.querySelector( '.tab-list li:first-child [role="tab"]' );
-		let firstTabId = firstTab.getAttribute( 'aria-controls' );
-		let firstTabContent = document.getElementById( firstTabId );
+		const firstTab = tabArea.querySelector( '.tab-list li:first-child [role="tab"]' );
+		const firstTabId = firstTab.getAttribute( 'aria-controls' );
+		const firstTabContent = document.getElementById( firstTabId );
 
 		firstTab.setAttribute( 'aria-selected', 'true' );
 		firstTab.parentNode.classList.add( 'is-active' );
@@ -128,11 +135,11 @@ export default class TenUpTabs {
 	 */
 	goToTab( event, tabArea ) {
 
-		let oldTab = tabArea.querySelector( '.tab-list li.is-active [role="tab"]' );
+		const oldTab = tabArea.querySelector( '.tab-list li.is-active [role="tab"]' );
 
 		// Change state of previously selected tab.
-		let oldTabId = oldTab.getAttribute( 'aria-controls' );
-		let oldTabContent = document.getElementById( oldTabId );
+		const oldTabId = oldTab.getAttribute( 'aria-controls' );
+		const oldTabContent = document.getElementById( oldTabId );
 
 		oldTab.setAttribute( 'aria-selected', 'false' );
 		oldTab.parentNode.classList.remove( 'is-active' );
@@ -141,9 +148,9 @@ export default class TenUpTabs {
 		oldTabContent.classList.remove( 'is-active' );
 
 		// Change state of newly selected tab.
-		let newTab = event.target;
-		let newTabId = newTab.getAttribute( 'aria-controls' );
-		let newTabContent = document.getElementById( newTabId );
+		const newTab = event.target;
+		const newTabId = newTab.getAttribute( 'aria-controls' );
+		const newTabContent = document.getElementById( newTabId );
 
 		newTab.setAttribute( 'aria-selected', 'true' );
 		newTab.parentNode.classList.add( 'is-active' );
