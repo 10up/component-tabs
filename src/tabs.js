@@ -84,6 +84,14 @@ export default class TenUpTabs {
 					this.goToTab( event, tabArea );
 				}
 			} );
+
+			tabLink.addEventListener( 'keyup', ( event ) => {
+
+				if ( 32 === event.which && ! event.target.parentNode.classList.contains( 'is-active' ) ) {
+					event.preventDefault();
+					this.goToTab( event, tabArea );
+				}
+			} );
 		}
 
 		this.setFirstTab( tabArea );
