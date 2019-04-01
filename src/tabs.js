@@ -9,7 +9,7 @@
  *
  * [Demo]{@link https://10up.github.io/wp-component-library/component/tabs/index.html}
  *
- * @param {string} element Element selector for the tooltip container.
+ * @param {string} element Element selector for the tabs container.
  * @param {Object} options Object of optional callbacks.
  */
 export default class TenUpTabs {
