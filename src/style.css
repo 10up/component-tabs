@@ -12,7 +12,7 @@
 .tab-item {
   display: inline-block;
 
-	& > a {
+	& > [role="tab"] {
 		border: 1px solid #777;
 		display: inline-block;
 		padding: 5px 8px;
@@ -30,7 +30,7 @@
 
 	&.is-active {
 
-		& a {
+		& [role="tab"] {
 			background: #fff;
 			position: relative;
 			z-index: 1;
