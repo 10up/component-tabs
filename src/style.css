@@ -1,16 +1,39 @@
 @import 'assets/core.css';
 
 .tab-list {
-  list-style: none;
-  margin: 0;
-  overflow: auto;
-  padding: 0;
-  position: relative;
-  white-space: nowrap;
+	list-style: none;
+	margin: 0;
+	overflow: auto;
+	padding: 0;
+	position: relative;
+	white-space: nowrap;
+
+	&[aria-orientation="vertical"] {
+		display: flex;
+		flex-direction: column;
+		white-space: normal;
+
+		& .tab-item {
+			display: block;
+		}
+
+		& .tab-item:last-of-type > [role="tab"] {
+			border-bottom-color: #777;
+		}
+
+		& .tab-item > [role="tab"] {
+			border-bottom-color: #fff;
+			width: 100%;
+		}
+
+		& .tab-item.is-active > [role="tab"] {
+			border-right-color: #fff;
+		}
+	}
 }
 
 .tab-item {
-  display: inline-block;
+	display: inline-block;
 
 	& > [role="tab"] {
 		border: 1px solid #777;
@@ -39,13 +62,23 @@
 	}
 }
 
+.tabs-vertical {
+	display: flex;
+}
+
+.tabs-vertical .tab-group {
+	flex: 1;
+	margin-left: -1px;
+	margin-top: 0;
+}
+
 .tab-group {
-  border: 1px solid #777;
-  margin-top: -1px;
+	border: 1px solid #777;
+	margin-top: -1px;
 }
 
 .tab-content {
-  padding: 15px;
+	padding: 15px;
 
 	&[aria-hidden=true] {
 		left: -999em;
