@@ -9,22 +9,22 @@
 .tab-item {
   display: inline-block
 }
-.tab-item > a {
+.tab-item > [role="tab"] {
 		border: 1px solid #777;
 		display: inline-block;
 		padding: 5px 8px;
 		text-decoration: none
 	}
 @media (min-width: 48em) {
-.tab-item > a {
+.tab-item > [role="tab"] {
 			padding: 10px 15px
 	}
 		}
-.tab-item > a:hover,
-		.tab-item > a:focus {
+.tab-item > [role="tab"]:hover,
+		.tab-item > [role="tab"]:focus {
 			background: #ccc;
 		}
-.tab-item.is-active a {
+.tab-item.is-active [role="tab"] {
 			background: #fff;
 			position: relative;
 			z-index: 1;

@@ -9,11 +9,16 @@
  *
  * [Demo]{@link https://10up.github.io/wp-component-library/component/tabs/index.html}
  *
- * @param {string} element Element selector for the tooltip container.
+ * @param {string} element Element selector for the tabs container.
  * @param {Object} options Object of optional callbacks.
  */
 export default class TenUpTabs {
 
+	/**
+	 * Constructor function
+	 * @param Object element
+	 * @param Object options
+	 */
 	constructor( element, options = {} ) {
 
 		// KeyCodes
@@ -60,7 +65,7 @@ export default class TenUpTabs {
 		// Settings
 		this.settings = Object.assign( {}, defaults, options );
 
-		for ( let tabArea of this.$tabs ) {
+		for ( const tabArea of this.$tabs ) {
 			this.setupTabs( tabArea );
 		}
 
@@ -82,15 +87,15 @@ export default class TenUpTabs {
 	 */
 	setupTabs( tabArea ) {
 
-		let tabLinks = tabArea.querySelectorAll( '.tab-list li > a' );
+		const tabLinks = tabArea.querySelectorAll( '.tab-list [role="tab"]' );
 		const tabList = tabArea.querySelector( '.tab-list' );
 
 		tabList.setAttribute( 'aria-orientation', this.settings.orientation );
 
-		for ( let tabLink of tabLinks ) {
-			let tabId = tabLink.getAttribute( 'href' );
-			let tabLinkId = `tab-${ tabId.slice( 1 ) }`;
-			let tabContent = tabArea.querySelector( tabId );
+		for ( const tabLink of tabLinks ) {
+			const tabId = tabLink.getAttribute( 'aria-controls' );
+			const tabLinkId = `tab-${ tabId }`;
+			const tabContent = document.getElementById( tabId );
 
 			tabLink.setAttribute( 'id', tabLinkId );
 			tabLink.setAttribute( 'aria-selected', false );
@@ -103,10 +108,20 @@ export default class TenUpTabs {
 			// Sets the first tab as active.
 			this.goToTab( 0, tabArea );
 
-			tabLink.addEventListener( 'click', () => {
+			// Activate the tab on [click]
+			tabLink.addEventListener( 'click', ( event ) => {
 				event.preventDefault();
 
 				if ( ! event.target.parentNode.classList.contains( 'is-active' ) ) {
+					this.goToTab( event, tabArea );
+				}
+			} );
+
+			// Activate the tab on [space]
+			tabLink.addEventListener( 'keyup', ( event ) => {
+
+				if ( 32 === event.which && ! event.target.parentNode.classList.contains( 'is-active' ) ) {
+					event.preventDefault();
 					this.goToTab( event, tabArea );
 				}
 			} );
@@ -163,7 +178,7 @@ export default class TenUpTabs {
 	determineNextTab( event, tabArea, tabLinks ) {
 		const key = event.keyCode;
 
-		const currentTab = tabArea.querySelector( '.tab-list li.is-active a' );
+		const currentTab = tabArea.querySelector( '.tab-list li.is-active [role="tab"]' );
 		const currentIndex = [].indexOf.call( tabLinks, currentTab );
 		const desiredIndex = parseInt( currentIndex + this.direction[key], 10 );
 
@@ -187,13 +202,13 @@ export default class TenUpTabs {
 		const type = typeof tab;
 		const isEvent = 'function' === type || 'object' === type && !!tab;
 
-		let tabItems = tabArea.querySelectorAll( '.tab-list li a' );
-		let oldTab = tabArea.querySelector( '.tab-list li.is-active a' );
+		const tabItems = tabArea.querySelectorAll( '.tab-list li [role="tab"]' );
+		const oldTab = tabArea.querySelector( '.tab-list li.is-active [role="tab"]' );
 
 		if ( oldTab ) {
 			// Change state of previously selected tab.
-			let oldTabId = oldTab.getAttribute( 'href' );
-			let oldTabContent = tabArea.querySelector( oldTabId );
+			const oldTabId = oldTab.getAttribute( 'aria-controls' );
+			const oldTabContent = document.getElementById( oldTabId );
 
 			oldTab.setAttribute( 'aria-selected', 'false' );
 			oldTab.setAttribute( 'tabindex', -1 );
@@ -206,15 +221,16 @@ export default class TenUpTabs {
 
 
 		// Change state of newly selected tab.
-		let newTab = isEvent ? tab.target : tabItems[tab];
+		const newTab = isEvent ? tab.target : tabItems[tab];
 
 		if ( newTab ) {
-			let newTabId = newTab.getAttribute( 'href' );
-			let newTabContent = tabArea.querySelector( newTabId );
+			const newTabId = newTab.getAttribute( 'aria-controls' );
+			const newTabContent = document.getElementById( newTabId );
 
 			newTab.setAttribute( 'aria-selected', 'true' );
 			newTab.removeAttribute( 'tabindex' );
 			newTab.parentNode.classList.add( 'is-active' );
+
 			if ( setFocus ) {
 				// Set focus to the tab
 				newTab.focus();
