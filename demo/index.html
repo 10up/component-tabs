@@ -49,7 +49,8 @@
 			</div><!-- //.tab-group -->
 
 		</div><!-- //.tabs -->
-		<div class="tabs">
+
+		<div class="tabs-vertical">
 			<div class="tab-control" role="tablist">
 				<ul class="tab-list">
 					<li class="tab-item"><button role="tab" aria-controls="js-tab1-alt">View Tab 1</button></li>
@@ -90,10 +91,21 @@
 			</div><!-- //.tab-group -->
 
 		</div><!-- //.tabs -->
+
 		<script src="../dist/tabs.js"></script>
 		<script type="text/javascript">
 
 			let componentInstance = new TenUp.tabs( '.tabs', {
+				onCreate: function() {
+					console.log( 'onCreate callback' );
+				},
+				onTabChange: function() {
+					console.log( 'onTabChange callback' );
+				}
+			} );
+
+			let componentInstanceVertical = new TenUp.tabs( '.tabs-vertical', {
+				orientation: 'vertical',
 				onCreate: function() {
 					console.log( 'onCreate callback' );
 				},
