@@ -102,7 +102,7 @@ export default class TenUpTabs {
 			tabLink.setAttribute( 'tabindex', -1 );
 			tabLink.parentNode.setAttribute( 'role', 'presentation' );
 
-			tabContent.setAttribute( 'aria-labeledby', tabLinkId );
+			tabContent.setAttribute( 'aria-labelledby', tabLinkId );
 			tabContent.setAttribute( 'aria-hidden', true );
 
 			// Sets the first tab as active.
