@@ -65,9 +65,9 @@ Create a new instance by supplying the selector to use for the tabs and an objec
 #### NPM
 
 ```javascript
-import tabs from '@10up/component-tabs';
+import Tabs from '@10up/component-tabs';
 
-new tabs( '.tabs', {
+new Tabs( '.tabs', {
 	onCreate: function() {
 		console.log( 'onCreate callback' );
 	},
