@@ -2,7 +2,10 @@
 
 > The tabs component is based on and extended from work done by the folks over at [Simply Accessible](http://simplyaccessible.com/). It is a stripped down, but still accessible version of UI tabs. They are keyboard accessible and user friendly and are meant to be a starting point for you to use on a project.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Build Status][cli-img]][cli-url]
+
+[cli-img]: https://travis-ci.org/10up/component-tabs.svg?branch=master
+[cli-url]: https://travis-ci.org/10up/component-tabs
 
 ## Installation
 
